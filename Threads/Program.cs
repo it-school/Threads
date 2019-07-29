@@ -7,16 +7,16 @@ namespace Threads
 {
     class Program
     {
-        static EggVoice mAnotherOpinion;	//Побочный поток
-
         static void Main(string[] args)
         {
-            /*
+            
             MyAppDomain.DomainInfo();
             MyAppDomain.ShowAssemblies();
             MyAppDomain.ShowThreads();
+          
 
             StartClass.StartThreadInfo();
+          
 
 
             //          Яйцо или курица ----------------
@@ -25,8 +25,10 @@ namespace Threads
 
             eggThread.Start();
             chickenThread.Start();
+            
 
-            //          Запуск потока
+
+            //          Запуск потока                       
             Worker w0 = new Worker(0, 10000);
             Worker w1 = new Worker(1, 10000);
             ThreadStart t0, t1;
@@ -40,17 +42,25 @@ namespace Threads
             // Возможен и такой вариант. Главное — это сигнатура функции.
             th0.Start();
             th1.Start();
-            */
+            
+
+
 
             ThreadStart myThreadDelegate = new ThreadStart(ThreadWork.DoWork);
             Thread myThread = new Thread(myThreadDelegate);
-            /*
+            
+
+
+
             //          Отстранение потока от выполнения
             myThread.Start();
             Thread.Sleep(10);
+            
             Console.WriteLine("Main - aborting my thread.");
             myThread.Suspend();
             Console.WriteLine("Main ending.");
+            
+
 
             
             // Прерывание потока
@@ -71,13 +81,30 @@ namespace Threads
 
             //9. Теперь везде все дела посворачивали... 
             Console.WriteLine("Main ending.");
-*/
-// Метод Join()
+
+
+
+
+
+            // Метод Join()
+            myThreadDelegate = new ThreadStart(ThreadWork.DoMoreWork);
+            myThread = new Thread(myThreadDelegate);
             myThread.Start();
             Thread.Sleep(100);
-            myThread.Join(); // Закомментировать вызов метода и осознать разницу.
+            //myThread.Join(); // Закомментировать вызов метода и осознать разницу.
             Console.WriteLine("Main ending.");
+            
 
+
+
+            // ClassWork - остановка потока извне вызовом его метода
+            ThreadTest tt = new ThreadTest("t1");
+            ThreadStart myThreadDel = new ThreadStart(tt.Run);
+            Thread myThread1 = new Thread(myThreadDel);
+            myThread1.Start();
+
+            Thread.Sleep(2000);
+            tt.suspend = true;
         }
     }
 
