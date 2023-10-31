@@ -6,17 +6,17 @@ namespace Threads
     class ThreadTest
     {
         private string name;
-        public bool suspend;
+        public bool abort;
         public ThreadTest(string name)
         {
             this.name = name;
-            suspend = false;
+            abort = false;
         }
 
         public void Run()
         {
             int counter = 0;
-            while (!suspend)
+            while (!abort)
             {
                 Console.WriteLine($"{name}: {counter += 100}");
                 Thread.Sleep(100);

@@ -29,7 +29,7 @@ namespace Threads
             Thread myThread1 = new Thread(myThreadDel);
             myThread1.Start();
             Thread.Sleep(2000);
-            tt.suspend = true;
+            tt.abort = true;
         }
 
         /// <summary>
@@ -124,11 +124,11 @@ namespace Threads
         {
             // ApplicationDomainDemo.Demo();
 
-            // StartClass.StartThreadInfo(); // Изменение атрибутов потока
+            //  StartClass.StartThreadInfo(); // Изменение атрибутов потока
 
             // ThreadStartDemo();
 
-            ThreadWorkingDemo();
+            // ThreadWorkingDemo();
 
             // ThreadSoftStopDemo();
 
@@ -140,9 +140,9 @@ namespace Threads
 
             // ParallelDirectorySizeCalculation(@"c:\windows\system32");
 
-            // MultiplyMatrices.Demo();
-
             // ParallelDirFilesDemo.Demo(@"C:\OpenServer");
+
+            MultiplyMatrices.Demo();
         }
     }
 }
