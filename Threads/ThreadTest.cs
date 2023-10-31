@@ -2,21 +2,23 @@
 using System.Threading;
 
 namespace Threads
-{    class ThreadTest
+{
+    class ThreadTest
     {
-        string state;
+        private string name;
         public bool suspend;
-        public ThreadTest(string state)
+        public ThreadTest(string name)
         {
-            this.state = state;
-            this.suspend = false;
+            this.name = name;
+            suspend = false;
         }
 
         public void Run()
         {
-            while (!this.suspend)
+            int counter = 0;
+            while (!suspend)
             {
-                Console.WriteLine(state);
+                Console.WriteLine($"{name}: {counter += 100}");
                 Thread.Sleep(100);
             }
 
