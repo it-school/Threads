@@ -11,12 +11,12 @@ namespace Threads
             {
                 try
                 {
-                    Thread.Sleep(new TimeSpan(0, 0, 1)); //Приостанавливает поток на 1 сек
-//                  Thread.Sleep(new TimeSpan(0, 0, 0, 1)); //Приостанавливает поток на 1 сек
-//                  Thread.Sleep(new TimeSpan(0, 0, 0, 1, 0)); //Приостанавливает поток на 1 сек
+                    Thread.Sleep(new TimeSpan(0, 0, 1));        //Приостанавливает поток на 1 сек
+//                  Thread.Sleep(new TimeSpan(0, 0, 0, 1));     //Приостанавливает поток на 1 сек
+//                  Thread.Sleep(new TimeSpan(0, 0, 0, 1, 0));  //Приостанавливает поток на 1 сек
                 }
                 catch (Exception) { }
-                Console.WriteLine("яйцо!");
+                Console.WriteLine("egg!");
             }
             // Слово «яйцо» сказано 5 раз
         }
@@ -34,7 +34,7 @@ namespace Threads
                 }
                 catch (Exception) { }
 
-                Console.WriteLine("курица!");
+                Console.WriteLine("chicken!");
             }
             //Слово «курица» сказано 5 раз
         }

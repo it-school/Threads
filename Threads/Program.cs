@@ -15,6 +15,7 @@ namespace Threads
             Thread eggThread = new Thread(new ThreadStart(EggVoice.Start));
             Thread chickenThread = new Thread(new ThreadStart(ChickenVoice.Start));
 
+            Console.WriteLine("Who was the first: EGG or CHICKEN?");
             eggThread.Start();
             chickenThread.Start();
         }
@@ -33,7 +34,10 @@ namespace Threads
         }
 
         /// <summary>
-        /// вычисляет общий размер файлов в каталоге. Он ожидает получить путь к одному каталогу в качестве аргумента и сообщает количество и общий размер файлов в этом каталоге. После подтверждения существования каталога он использует метод Parallel.For для перечисления файлов в этом каталоге и определения их размеров. После этого размер каждого файла добавляется в переменную totalSize. Обратите внимание, что добавление выполняется путем вызова Interlocked.Add, чтобы оно имело форму атомарной операции. В противном случае несколько задач могут одновременно попытаться обновить переменную totalSize.
+        /// вычисляет общий размер файлов в каталоге. Он ожидает получить путь к одному каталогу в качестве аргумента и сообщает количество и общий размер файлов в этом каталоге.
+        /// После подтверждения существования каталога он использует метод Parallel.For для перечисления файлов в этом каталоге и определения их размеров.
+        /// После этого размер каждого файла добавляется в переменную totalSize. Обратите внимание, что добавление выполняется путем вызова Interlocked.Add, чтобы оно имело форму атомарной операции.
+        /// В противном случае несколько задач могут одновременно попытаться обновить переменную totalSize.
         /// </summary>
         /// <param name="path"></param>
         static void ParallelDirectorySizeCalculation(string path)
@@ -47,13 +51,12 @@ namespace Threads
             }
 
             string[] files = Directory.GetFiles(path);
-            Parallel.For(0, files.Length,
-                         index =>
-                         {
-                             FileInfo fi = new FileInfo(files[index]);
-                             long size = fi.Length;
-                             Interlocked.Add(ref totalSize, size);
-                         });
+            Parallel.For(0, files.Length, index =>
+                                                 {
+                                                     FileInfo fi = new FileInfo(files[index]);
+                                                     long size = fi.Length;
+                                                     Interlocked.Add(ref totalSize, size);
+                                                 });
             Console.WriteLine("Directory '{0}':", path);
             Console.WriteLine("{0:N0} files, {1:N0} bytes", files.Length, totalSize);
         }
@@ -73,22 +76,22 @@ namespace Threads
 
 
             // Прерывание потока
-            //1. Мероприятия по организации вторичного потока!
+            // 1. Мероприятия по организации вторичного потока!
             myThreadDelegate = new ThreadStart(ThreadWork.DoMoreWork);
             myThread = new Thread(myThreadDelegate);
-            //2. Вторичный поток стартовал!
+            // 2. Вторичный поток стартовал!
             myThread.Start();
 
-            //3. А вот первичный поток – самоусыпился!
+            // 3. А вот первичный поток – самоусыпился!
             //   И пока первичный поток спит, вторичный поток – работает!
             Thread.Sleep(50);
 
-            //5. Но вот первичный поток проснулся – и первое, что он
+            // 5. Но вот первичный поток проснулся – и первое, что он
             //   делает, – это прерывает вторичный поток! 
             Console.WriteLine("Main – aborting my thread.");
             myThread.Abort();
 
-            //9. Теперь везде все дела посворачивали... 
+            // 9. Теперь везде все дела посворачивали... 
             Console.WriteLine("Main ending.");
 
 
@@ -120,27 +123,30 @@ namespace Threads
             th0.Start();
             th1.Start();
         }
+
         static void Main(string[] args)
         {
-            // ApplicationDomainDemo.Demo();
+            ApplicationDomainDemo.Demo();
 
-            //  StartClass.StartThreadInfo(); // Изменение атрибутов потока
+            StartClass.StartThreadInfo(); // Изменение атрибутов потока
 
-            // ThreadStartDemo();
+            ThreadStartDemo();
 
-            // ThreadWorkingDemo();
+            ThreadWorkingDemo();
 
-            // ThreadSoftStopDemo();
+            ThreadSoftStopDemo();
 
 
             // ---------------------------------------------------
 
 
-            // EggOrChicken();
+            EggOrChicken();
 
-            // ParallelDirectorySizeCalculation(@"c:\windows\system32");
+            ParallerForEachDemo.Demo();
 
-            // ParallelDirFilesDemo.Demo(@"C:\OpenServer");
+            ParallelDirectorySizeCalculation(@"c:\windows\system32");
+
+            ParallelDirFilesDemo.Demo(@"C:\OpenServer");
 
             MultiplyMatrices.Demo();
         }
